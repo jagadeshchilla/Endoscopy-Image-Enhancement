@@ -1,8 +1,8 @@
-flask==2.0.1
-Pillow==9.0.0
-torch==1.10.0
-numpy==1.21.5
-werkzeug==2.0.3
-opencv-python==4.5.5.64
-scipy==1.7.3
-scikit-image==0.19.2
+flask
+Pillow
+torch
+numpy
+werkzeug
+opencv-python
+scipy
+scikit-image
