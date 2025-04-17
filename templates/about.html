@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}About - Medical Image Enhancement{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <h1 class="display-4 mb-4">About Our Project</h1>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Project Overview</h2>
+                <p class="card-text">
+                    Our medical image enhancement system utilizes state-of-the-art deep learning models to improve the quality
+                    and clarity of medical images. By combining SRCNN and U-Net architectures, we achieve superior results in
+                    image enhancement while preserving critical diagnostic details.
+                </p>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Key Features</h2>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Real-time image and video enhancement</li>
+                    <li class="list-group-item">Advanced edge detection and preservation</li>
+                    <li class="list-group-item">Automatic quality metrics calculation (PSNR, SSIM)</li>
+                    <li class="list-group-item">Support for multiple image formats</li>
+                    <li class="list-group-item">User-friendly interface with dark mode support</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Technology Stack</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Backend</h5>
+                        <ul>
+                            <li>Python Flask</li>
+                            <li>PyTorch</li>
+                            <li>OpenCV</li>
+                            <li>NumPy</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Frontend</h5>
+                        <ul>
+                            <li>HTML5</li>
+                            <li>Bootstrap 5</li>
+                            <li>JavaScript</li>
+                            <li>WebRTC</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Our Team</h2>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col">
+                        <div class="text-center">
+                            <img src="/static/about_authors/kedhareswer.jpeg" alt="M.Kedhareswer Naidu" class="mb-3" width="150" height="150" style="border-radius: 50%;">
+                            <h5>M.Kedhareswer Naidu</h5>
+                            <p class="text-muted">Project Lead, Data Engineer, Model Architect & Developer</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="text-center">
+                            <img src="/static/about_authors/jagadesh.jpg" alt="Jagadesh Chilla" class="mb-3" width="150" height="150" style="border-radius: 50%;">
+                            <h5>Jagadesh Chilla</h5>
+                            <p class="text-muted">Deep Learning Engineer, Benchmarking & Validation Specialist</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="text-center">
+                            <img src="/static/about_authors/manish.jpeg" alt="Manish Chetla" class="mb-3" width="150" height="150" style="border-radius: 50%;">
+                            <h5>Manish Chetla</h5>
+                            <p class="text-muted">Data & Preprocessing Specialist, Evaluation & Deployment Engineer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Medical Image Enhancement{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="text-center mb-5">
+            <h1 class="display-4 mb-4">Medical Image Enhancement</h1>
+            <p class="lead">Advanced AI-powered enhancement for medical imaging using SRCNN and U-Net models.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Image Enhancement</h5>
+                        <p class="card-text">Upload and enhance medical images with our state-of-the-art AI models. Compare original and enhanced versions side by side.</p>
+                        <a href="/enhancement" class="btn btn-primary">Try Image Enhancement</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Real-time Video Enhancement</h5>
+                        <p class="card-text">Process video streams in real-time using our advanced enhancement algorithms. Perfect for endoscopic procedures.</p>
+                        <a href="/enhancement" class="btn btn-primary">Try Video Enhancement</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Technical Details</h5>
+                        <p class="card-text">Learn about the SRCNN and U-Net models powering our enhancement system. Explore the technical architecture and capabilities.</p>
+                        <a href="/model-info" class="btn btn-primary">View Model Info</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">About the Project</h5>
+                        <p class="card-text">Discover the research and development behind our medical image enhancement technology.</p>
+                        <a href="/about" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

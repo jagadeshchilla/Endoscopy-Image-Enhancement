@@ -1,0 +1,307 @@
+{% extends "base.html" %}
+
+{% block title %}Enhancement - Medical Image Enhancement{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <ul class="nav nav-tabs" id="enhancementTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="image-tab" data-bs-toggle="tab" data-bs-target="#image" type="button" role="tab">Image Enhancement</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="video-tab" data-bs-toggle="tab" data-bs-target="#video" type="button" role="tab">Video Enhancement</button>
+            </li>
+        </ul>
+
+        <div class="tab-content mt-3" id="enhancementTabContent">
+            <!-- Image Enhancement Tab -->
+            <div class="tab-pane fade show active" id="image" role="tabpanel">
+                <div class="card" style="background-color: var(--card-bg); border-color: var(--card-border);">
+                    <div class="card-body" style="background-color: var(--card-bg);">
+
+                        <form id="uploadForm" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="imageFile" class="form-label">Select Image</label>
+                                <input type="file" class="form-control" id="imageFile" name="image" accept=".jpg,.jpeg,.png" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enhance Image</button>
+                        </form>
+
+                        <!-- Loading Skeleton for Image Enhancement -->
+                        <div id="loadingSkeleton" class="mt-4" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-3" style="background-color: var(--card-bg); border-color: var(--card-border);">
+                                        <div class="card-header text-white" style="background-color: var(--primary-color);">Processing...</div>
+                                        <div class="card-body p-2" style="height: 300px;">
+                                            <div class="placeholder-glow w-100 h-100">
+                                                <div class="placeholder w-100 h-100"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-3" style="background-color: var(--card-bg); border-color: var(--card-border);">
+                                        <div class="card-header text-white" style="background-color: var(--primary-color);">Enhancing...</div>
+                                        <div class="card-body p-2" style="height: 300px;">
+                                            <div class="placeholder-glow w-100 h-100">
+                                                <div class="placeholder w-100 h-100"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="imageResults" class="mt-4" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-3" style="background-color: var(--card-bg); border-color: var(--card-border);">
+                                        <div class="card-header text-white" style="background-color: var(--primary-color);">Original Image</div>
+                                        <div class="card-body p-2 d-flex align-items-center justify-content-center" style="height: 300px;">
+                                            <img id="originalImage" class="img-fluid rounded" style="max-height: 100%; width: auto;" alt="Original Image">
+                                        </div>
+                                    </div>
+                                    <div class="card mb-3" style="background-color: var(--card-bg); border-color: var(--card-border);">
+                                        <div class="card-header text-white" style="background-color: var(--secondary-color);">Original Edge Detection</div>
+                                        <div class="card-body p-2 d-flex align-items-center justify-content-center" style="height: 300px;">
+                                            <img id="originalEdges" class="img-fluid rounded" style="max-height: 100%; width: auto;" alt="Original Edges">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-3" style="background-color: var(--card-bg); border-color: var(--card-border);">
+                                        <div class="card-header text-white" style="background-color: var(--primary-color);">Enhanced Image</div>
+                                        <div class="card-body p-2 d-flex align-items-center justify-content-center" style="height: 300px;">
+                                            <img id="enhancedImage" class="img-fluid rounded" style="max-height: 100%; width: auto;" alt="Enhanced Image">
+                                        </div>
+                                    </div>
+                                    <div class="card mb-3" style="background-color: var(--card-bg); border-color: var(--card-border);">
+                                        <div class="card-header text-white" style="background-color: var(--secondary-color);">Enhanced Edge Detection</div>
+                                        <div class="card-body p-2 d-flex align-items-center justify-content-center" style="height: 300px;">
+                                            <img id="enhancedEdges" class="img-fluid rounded" style="max-height: 100%; width: auto;" alt="Enhanced Edges">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mt-3">
+                                <div class="card-header bg-primary text-white">Enhancement Metrics</div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="metric-box p-3 border rounded" style="background-color: var(--metric-box-bg); border-color: var(--metric-box-border);">
+                                                <h5>PSNR (Peak Signal-to-Noise Ratio)</h5>
+                                                <p class="h3 text-primary" id="psnrValue">-</p>
+                                                <small class="text-muted">Higher values indicate better quality</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="metric-box p-3 border rounded" style="background-color: var(--metric-box-bg); border-color: var(--metric-box-border);">
+                                                <h5>SSIM (Structural Similarity Index)</h5>
+                                                <p class="h3 text-success" id="ssimValue">-</p>
+                                                <small class="text-muted">Values closer to 1 indicate better similarity</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Enhancement Tab -->
+            <div class="tab-pane fade" id="video" role="tabpanel">
+                <div class="card" style="background-color: var(--card-bg); border-color: var(--card-border);">
+                    <div class="card-body" style="background-color: var(--card-bg);">
+
+                        <div class="alert mb-4" style="background-color: var(--alert-bg); border-color: var(--alert-border); color: var(--text-color);">
+                            <h5 class="alert-heading">Video Frame Enhancement</h5>
+                            <p class="mb-0">Select a specific frame from the video to enhance. Play the video and click "Capture Frame" when you find the frame you want to enhance. The system will process that frame and show you a side-by-side comparison with enhancement metrics.</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <div class="card">
+                                    <div class="card-header bg-primary text-white">Sample Video (video_07.mp4)</div>
+                                    <div class="card-body p-2">
+                                        <video id="sampleVideo" controls class="w-100 rounded" style="max-height: 400px; object-fit: contain;">
+                                            <source src="/static/video_07.mp4" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mb-3">
+                            <button id="captureFrame" class="btn btn-primary">Capture Frame</button>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-header bg-primary text-white">Captured Frame</div>
+                                    <div class="card-body p-2">
+                                        <canvas id="capturedFrame" class="w-100 rounded" style="max-height: 300px; object-fit: contain;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card mb-3">
+                                    <div class="card-header bg-success text-white">Enhanced Frame</div>
+                                    <div class="card-body p-2">
+                                        <canvas id="enhancedFrame" class="w-100 rounded" style="max-height: 300px; object-fit: contain;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-3">
+                                <div class="card-header bg-primary text-white">Enhancement Metrics</div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="metric-box p-3 border rounded" style="background-color: var(--metric-box-bg); border-color: var(--metric-box-border);">
+                                            <h5>PSNR (Peak Signal-to-Noise Ratio)</h5>
+                                            <p class="h3 text-primary" id="framePsnrValue">-</p>
+                                            <small class="text-muted">Higher values indicate better quality</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="metric-box p-3 border rounded" style="background-color: var(--metric-box-bg); border-color: var(--metric-box-border);">
+                                            <h5>SSIM (Structural Similarity Index)</h5>
+                                            <p class="h3 text-success" id="frameSsimValue">-</p>
+                                            <small class="text-muted">Values closer to 1 indicate better similarity</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Image Enhancement
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        // Show loading skeleton and hide results
+        document.getElementById('loadingSkeleton').style.display = 'block';
+        document.getElementById('imageResults').style.display = 'none';
+
+        fetch('/enhance_image', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('loadingSkeleton').style.display = 'none';
+                document.getElementById('imageResults').style.display = 'block';
+                document.getElementById('originalImage').src = data.original;
+                document.getElementById('enhancedImage').src = data.enhanced;
+                document.getElementById('originalEdges').src = data.edges_original;
+                document.getElementById('enhancedEdges').src = data.edges_enhanced;
+                document.getElementById('psnrValue').textContent = data.metrics.psnr.toFixed(2);
+                document.getElementById('ssimValue').textContent = data.metrics.ssim.toFixed(4);
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while processing the image.');
+        });
+    });
+
+    // Video Frame Enhancement
+    const sampleVideo = document.getElementById('sampleVideo');
+    const capturedCanvas = document.getElementById('capturedFrame');
+    const enhancedCanvas = document.getElementById('enhancedFrame');
+    const captureBtn = document.getElementById('captureFrame');
+    const frameMetrics = document.getElementById('frameMetrics');
+
+    // Initialize canvases
+    const capturedCtx = capturedCanvas.getContext('2d');
+    const enhancedCtx = enhancedCanvas.getContext('2d');
+
+    // Set up video dimensions when metadata is loaded
+    sampleVideo.addEventListener('loadedmetadata', function() {
+        capturedCanvas.width = sampleVideo.videoWidth;
+        capturedCanvas.height = sampleVideo.videoHeight;
+        enhancedCanvas.width = sampleVideo.videoWidth;
+        enhancedCanvas.height = sampleVideo.videoHeight;
+    });
+
+    // Capture frame when button is clicked
+    // Add loading skeleton for video frame enhancement
+    const frameLoadingSkeleton = `
+        <div class="placeholder-glow w-100" style="height: 300px;">
+            <div class="placeholder w-100 h-100"></div>
+        </div>
+    `;
+
+    captureBtn.addEventListener('click', function() {
+        if (sampleVideo.paused || sampleVideo.ended) {
+            alert('Please play the video first');
+            return;
+        }
+
+        // Show loading skeleton
+        enhancedCanvas.style.display = 'none';
+        enhancedCanvas.insertAdjacentHTML('afterend', frameLoadingSkeleton);
+        document.getElementById('framePsnrValue').textContent = '-';
+        document.getElementById('frameSsimValue').textContent = '-';
+
+        // Draw the current frame to the canvas
+        capturedCtx.drawImage(sampleVideo, 0, 0, capturedCanvas.width, capturedCanvas.height);
+        
+        // Convert the frame to base64
+        const frameData = capturedCanvas.toDataURL('image/jpeg');
+
+        // Send the frame for enhancement
+        fetch('/enhance_frame', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                frame: frameData
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Create an image from the enhanced frame data
+                const enhancedImg = new Image();
+                enhancedImg.onload = function() {
+                    // Remove loading skeleton and show enhanced frame
+                    const loadingSkeleton = enhancedCanvas.nextElementSibling;
+                    if (loadingSkeleton && loadingSkeleton.classList.contains('placeholder-glow')) {
+                        loadingSkeleton.remove();
+                    }
+                    enhancedCanvas.style.display = 'block';
+                    // Draw the enhanced frame
+                    enhancedCtx.drawImage(enhancedImg, 0, 0, enhancedCanvas.width, enhancedCanvas.height);
+                };
+                enhancedImg.src = data.enhanced_frame;
+
+                // Update metrics
+                document.getElementById('framePsnrValue').textContent = data.metrics.psnr.toFixed(2);
+                document.getElementById('frameSsimValue').textContent = data.metrics.ssim.toFixed(4);
+                frameMetrics.style.display = 'block';
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while processing the frame.');
+        });
+    });
+</script>
+{% endblock %}
