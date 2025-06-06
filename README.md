@@ -44,8 +44,8 @@ This web application provides a state-of-the-art interface for enhancing medical
 graph TD
     A[User Input] --> B[Web Interface]
     B --> C{Processing Type}
-    C -->|Image| D[SRCNN Model]
-    C -->|Video| E[UNet Model]
+    C -->|Image| D[SRCNN Model] + [Unet Model]
+    C -->|Video| E[UNet Model] + [SRCNN Model]
     D --> F[Enhancement Pipeline]
     E --> F
     F --> G[Edge Detection]
