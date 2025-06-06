@@ -85,8 +85,50 @@ cd Endoscopy-Image-Enhancement
 # Install dependencies
 pip install -r requirements.txt
 
-# Run the application
+# Run the application locally
 python app.py
+```
+
+## 🌐 Deployment
+
+### Local Deployment with Waitress (Production Server)
+
+```bash
+# Install Waitress
+pip install waitress
+
+# Run with Waitress
+python run_server.py
+```
+
+### Cloud Deployment
+
+#### Deploying to Render
+
+1. Create a free account on [Render](https://render.com/)
+2. Connect your GitHub repository
+3. Create a new Web Service
+4. Use the following settings:
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `gunicorn app:app`
+   - Environment: Python 3.9
+5. Click "Create Web Service"
+
+#### Deploying to Heroku
+
+```bash
+# Install Heroku CLI
+# Login to Heroku
+heroku login
+
+# Create a new Heroku app
+heroku create endoscopy-image-enhancement
+
+# Push to Heroku
+git push heroku main
+
+# Scale the app
+heroku ps:scale web=1
 ```
 
 ## 📖 Usage Guide

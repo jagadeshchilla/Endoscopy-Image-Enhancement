@@ -6,3 +6,5 @@ werkzeug
 opencv-python
 scipy
 scikit-image
+waitress
+gunicorn

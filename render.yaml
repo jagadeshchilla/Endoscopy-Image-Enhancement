@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: endoscopy-image-enhancement
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.16
+    disk:
+      name: uploads
+      mountPath: /static/uploads
+      sizeGB: 1
