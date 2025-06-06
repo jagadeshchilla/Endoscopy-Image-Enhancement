@@ -44,14 +44,35 @@ This web application provides a state-of-the-art interface for enhancing medical
 graph TD
     A[User Input] --> B[Web Interface]
     B --> C{Processing Type}
-    C -->|Image| D[SRCNN Model] + [Unet Model]
-    C -->|Video| E[UNet Model] + [SRCNN Model]
-    D --> F[Enhancement Pipeline]
-    E --> F
-    F --> G[Edge Detection]
-    F --> H[Metrics Calculation]
-    G --> I[Results Display]
-    H --> I
+    
+    C -->|Image| D[Image Input]
+    C -->|Video| E[Video Input]
+    E --> F[Frame Extraction]
+    
+    subgraph Processing Pipeline
+        G[Pre-Processing]
+        
+        subgraph Parallel Models
+            H[SRCNN Model]
+            I[UNet Model]
+        end
+        
+        J[Model Fusion]
+        K[Post-Processing]
+    end
+    
+    D --> G
+    F --> G
+    G --> H & I
+    H & I --> J
+    J --> K
+    
+    K --> L[Edge Detection]
+    K --> M[Quality Metrics]
+    L & M --> N[Results Display]
+    
+    style Parallel Models fill:#f9f,stroke:#333,stroke-width:2px
+    style Processing Pipeline fill:#f5f5f5,stroke:#666,stroke-width:2px
 ```
 
 ## 🚀 Installation
